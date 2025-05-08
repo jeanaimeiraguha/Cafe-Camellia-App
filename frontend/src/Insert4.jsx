@@ -1,7 +1,7 @@
 
 import axios from 'axios'
 import { useState,useEffect } from 'react'
-const insert = () => {
+const insert4 = () => {
      const[CandidateNationalId,setCandidateNationalId]=useState("")
      const[FirstName,setFirstName]=useState("")
      const[LastName,setLastName]=useState("")
@@ -33,12 +33,21 @@ axios.post("http://localhost:3000/insertcandidates",{    CandidateNationalId   ,
      <h2>Add Users</h2>
 
      <form onSubmit={handleSubmit} >
-          User Name<input type="text" value={username} onChange={e=>setUsername(e.target.value)} /> <br />
-          Password<input type="text" value={password} onChange={e=>setPassword(e.target.value)} /> <br />
+     CandidateNationalId <input type="text" value={CandidateNationalId} onChange={e=>setCandidateNationalId(e.target.value)} /> <br />
+     FirstName<input type="text" value={FirstName} onChange={e=>setFirstName(e.target.value)} /> <br />
+          
+     LastName <input type="text" value={LastName} onChange={e=>setLastName(e.target.value)} /> <br />
+     Gender <input type="text" value={Gender} onChange={e=>setGender(e.target.value)} /> <br />
+          
+     DateOfBirth <input type="date" value={DateOfBirth} onChange={e=>setDateOfBirth(e.target.value)} /> <br />
+     PostId   <input type="text" value={PostId} onChange={e=>setPostId(e.target.value)} /> <br />
+     ExamDate<input type="date" value={ExamDate} onChange={e=>setExamDate(e.target.value)} /> <br />
+     PhoneNumber <input type="text" value={PhoneNumber} onChange={e=>setPhoneNumber(e.target.value)} /> <br />
+     Marks<input type="text" value={Marks} onChange={e=>setMarks(e.target.value)} /> <br />
           <button type='submit'>Add New </button>
      </form>
     </div>
   )
 }
 
-export default insert
+export default insert4

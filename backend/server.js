@@ -34,6 +34,16 @@ app.get('/select', (req, res) => {
         return res.status(200).json(result);
     });
 });
+app.get('/selectcand', (req, res) => {
+     const sql = "SELECT * FROM candresults";
+     db.query(sql, (err, result) => {
+         if (err) {
+             console.error("Error fetching users:", err);
+             return res.status(500).json({ message: "Failed to fetch users" });
+         }
+         return res.status(200).json(result);
+     });
+ });
 
 app.get('/selectposts', (req, res) => {
      const sql = "SELECT * FROM post";
@@ -108,6 +118,16 @@ if(err) return res.status(400).json("Failed")
      return res.status(200).json(result)
      })
 })
+
+app.delete('/deletecand/:PostId',(req,res)=>{
+     const {PostId}=req.params;
+     const sql ="DELETE FROM 	candresults where PostId=?"
+     db.query(sql,[PostId],(err,result)=>{
+if(err) return res.status(400).json("Failed")
+     return res.status(200).json(result)
+     })
+})
+
 app.delete('/deleteposts/:PostId',(req,res)=>{
      const {PostId}=req.params;
      const sql ="DELETE FROM post where PostId=?"
@@ -134,6 +154,15 @@ app.put('/updateposts/:PostId',(req,res)=>{
      const{PostName}=req.body;
      const sql ="UPDATE post SET PostName=?  where PostId=?"
      db.query(sql,[PostName,PostId],(err,result)=>{
+if(err) return res.status(400).json("Failed")
+     return res.status(200).json(result)
+     })
+})
+app.put('/updatecand/:PostId',(req,res)=>{
+     const {PostId}=req.params;
+     const{PostName}=req.body;
+     const sql ="UPDATE 	candresults SET  CandidateNationalId=?   ,     FirstName=?     ,      LastName=?   ,             DateOfBirth=?  ,    Gender=?  ,PostId=?,ExamDate=?,PhoneNumber=?,           Marks=?  where PostId=?"
+     db.query(sql,[CandidateNationalId,FirstName,LastName, DateOfBirth,Gender,PhoneNumber,ExamDate,Marks,PostId],(err,result)=>{
 if(err) return res.status(400).json("Failed")
      return res.status(200).json(result)
      })

@@ -5,6 +5,8 @@ import Update from './Update';
 import Insert2 from './Insert2';
 import Select3 from './Select3';
 import Update2 from './Update2';
+import Insert4 from './Insert4';
+import Select4 from './Select4';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -12,9 +14,11 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/insert" element={<Insert />} />
+        <Route path="/insert4" element={<Insert4 />} />
         <Route path="/select" element={<Select />} />
         <Route path="/insert2" element={<Insert2 />} />
         <Route path='/select3' element={<Select3/>}/>
+        <Route path='/select4' element={<Select4/>}/>
         <Route path="/update/:id" element={<Update />} /> {/* ✅ leading slash for clarity */}
         <Route path="/update2/:PostId" element={<Update2 />} /> {/* ✅ leading slash for clarity */}
       </Routes>
