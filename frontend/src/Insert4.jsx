@@ -16,7 +16,11 @@ event.preventDefault();
 
 axios.post("http://localhost:3000/insertcandidates",{
 
-
+     CandidateNationalId   ,   
+     FirstName     ,      
+ LastName   ,         
+      DateOfBirth  ,              
+      Marks,
 
 
 
