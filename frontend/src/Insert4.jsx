@@ -14,13 +14,7 @@ const insert = () => {
      const handleSubmit=(event)=>{
 event.preventDefault();
 
-axios.post("http://localhost:3000/insertcandidates",{
-
-     CandidateNationalId   ,   
-     FirstName     ,      
- LastName   ,         
-      DateOfBirth  ,              
-      Marks,
+axios.post("http://localhost:3000/insertcandidates",{    CandidateNationalId   ,     FirstName     ,      LastName   ,             DateOfBirth  ,    Gender  ,PostId,ExamDate,PhoneNumber,           Marks
 
 
 
