@@ -73,6 +73,22 @@ app.post('/insert',(req,res)=>{
           return res.status(201).json(result)
      })
 })
+// candidates
+
+
+app.post('/insertcandidates',(req,res)=>{
+     const {CandidateNationalId,FirstName,LastName,Gender,DateOfBirth,PostId,ExamDate,PhoneNumber,Marks	,password}=req.body;
+     const sql="INSERT INTO candresults(username,password) VALUES(?,?)";
+     db.query(sql,[username,password],(err,result)=>{
+          if(err) return res.status(400).json({Message:"Failed",status:400});
+          return res.status(201).json(result)
+     })
+})
+
+
+
+
+
 //Add post
 
 
