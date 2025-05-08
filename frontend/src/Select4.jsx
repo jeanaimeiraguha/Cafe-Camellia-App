@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useState,useEffect } from "react"
-// import {useParams} from 'react-router-dom'
+// import {useNavigate} from 'react-router-dom'
 import { Link } from "react-router-dom"
 
 
@@ -20,7 +20,8 @@ const Select4 = () => {
           axios.delete(`http://localhost:3000/deletecand/${PostId}`)
           .then((res)=>{
                alert("user deleted")
-               // fetchData()
+               navigate("/select4")
+               fetchData()
           })
           .catch((err)=>{
                console.log("failed");
@@ -67,7 +68,7 @@ const Select4 = () => {
               
                
                <button onClick={() => handleDelete(data.PostId)}>Delete</button>
-               <Link to={`/update2/${data.PostId}`}>Update</Link>
+               <Link to={`/update4/${data.PostId}`}>Update</Link>
 
 
 

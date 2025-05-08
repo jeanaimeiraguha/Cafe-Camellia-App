@@ -45,6 +45,24 @@ app.get('/selectcand', (req, res) => {
      });
  });
 
+
+ //Report select
+
+ app.get('/selectreport', (req, res) => {
+     const sql = `SELECT * 
+FROM candresults 
+JOIN post ON post.PostId = candresults.PostId 
+ORDER BY marks DESC;
+`;
+     db.query(sql, (err, result) => {
+         if (err) {
+             console.error("Error fetching users:", err);
+             return res.status(500).json({ message: "Failed to fetch users" });
+         }
+         return res.status(200).json(result);
+     });
+ });
+
 app.get('/selectposts', (req, res) => {
      const sql = "SELECT * FROM post";
      db.query(sql, (err, result) => {
@@ -64,6 +82,18 @@ app.get('/select/:id',(req,res)=>{
 
      })
 })
+
+
+app.get('/selectcand/:PostId', (req, res) => {
+     const { PostId } = req.params;
+     const sql = "SELECT * FROM candresults WHERE PostId=?";
+     db.query(sql, [PostId], (err, result) => {
+         if (err) return res.status(400).json("failed");
+         return res.status(200).json(result[0]); 
+     });
+ });
+ 
+
 app.get('/selectposts/:PostId',(req,res)=>{
      const{PostId}=req.params;
      const sql="SELECT * FROM post WHERE PostId=?"
@@ -158,15 +188,16 @@ if(err) return res.status(400).json("Failed")
      return res.status(200).json(result)
      })
 })
-app.put('/updatecand/:PostId',(req,res)=>{
-     const {PostId}=req.params;
-     const{PostName}=req.body;
-     const sql ="UPDATE 	candresults SET  CandidateNationalId=?   ,     FirstName=?     ,      LastName=?   ,             DateOfBirth=?  ,    Gender=?  ,PostId=?,ExamDate=?,PhoneNumber=?,           Marks=?  where PostId=?"
-     db.query(sql,[CandidateNationalId,FirstName,LastName, DateOfBirth,Gender,PhoneNumber,ExamDate,Marks,PostId],(err,result)=>{
-if(err) return res.status(400).json("Failed")
-     return res.status(200).json(result)
-     })
-})
+app.put('/updatecand/:PostId', (req, res) => {
+     const { PostId } = req.params;
+     const { CandidateNationalId, FirstName, LastName, DateOfBirth, Gender, PhoneNumber, ExamDate, Marks } = req.body;
+     const sql = "UPDATE candresults SET CandidateNationalId=?, FirstName=?, LastName=?, DateOfBirth=?, Gender=?, PhoneNumber=?, ExamDate=?, Marks=? WHERE PostId=?";
+     db.query(sql, [CandidateNationalId, FirstName, LastName, DateOfBirth, Gender, PhoneNumber, ExamDate, Marks, PostId], (err, result) => {
+         if (err) return res.status(400).json("Failed");
+         return res.status(200).json(result);
+     });
+ });
+ 
 
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");

@@ -1,5 +1,6 @@
 
 import axios from 'axios'
+import { useNavigate} from 'react-router-dom'
 import { useState,useEffect } from 'react'
 const insert4 = () => {
      const[CandidateNationalId,setCandidateNationalId]=useState("")
@@ -11,6 +12,7 @@ const insert4 = () => {
      const[ExamDate,setExamDate]=useState("")
      const[PhoneNumber,setPhoneNumber]=useState("")
      const[Marks,setMarks]=useState("")
+     const navigate=useNavigate()
      const handleSubmit=(event)=>{
 event.preventDefault();
 
@@ -21,6 +23,7 @@ axios.post("http://localhost:3000/insertcandidates",{    CandidateNationalId   ,
 })
 .then((res)=>{
      alert("user Added successfully")
+     navigate('/select4')
 })
 .catch((err)=>{
      console.log("Error occured in insertion")
