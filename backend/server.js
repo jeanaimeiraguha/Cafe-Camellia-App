@@ -49,10 +49,8 @@ app.get('/selectcand', (req, res) => {
  //Report select
 
  app.get('/selectreport', (req, res) => {
-     const sql = `SELECT * 
-FROM candresults 
-JOIN post ON post.PostId = candresults.PostId 
-ORDER BY marks DESC;
+     const sql = `SELECT * FROM candresults JOIN post ON post.PostId = candresults.PostId ORDER BY Marks DESC
+
 `;
      db.query(sql, (err, result) => {
          if (err) {

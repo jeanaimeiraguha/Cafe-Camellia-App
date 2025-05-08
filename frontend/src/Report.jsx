@@ -43,7 +43,7 @@ const Select4 = () => {
                         <th>PhoneNumber</th>
                         <th>Marks</th>
                         <th>PostName</th>
-                        <th colSpan={2}>Operations</th>
+                        {/* <th colSpan={2}>Operations</th> */}
                     </tr>
                 </thead>
                 <tbody>
