@@ -1,20 +1,19 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom'; // ✅ Needed to access :id from the URL
+import { useParams } from 'react-router-dom';
 
 const Update = () => {
-  const { PostId } = useParams(); // ✅ Extracts ID from the route
-//   const [username, setUsername] = useState("");
+  const { PostId } = useParams();
   const [PostName, setPostName] = useState("");
 
   useEffect(() => {
     axios.get(`http://localhost:3000/selectposts/${PostId}`)
       .then((res) => {
-     //    setUsername(res.data.us); // ✅ Should match API response keys
         setPostName(res.data.PostName);
       })
       .catch((err) => {
         alert("Data failed to be fetched");
+        console.error(err);
       });
   }, [PostId]);
 
@@ -22,11 +21,11 @@ const Update = () => {
     axios.put(`http://localhost:3000/updateposts/${PostId}`, {
       PostName
     })
-      .then((res) => {
+      .then(() => {
         alert("Updated successfully!");
       })
       .catch((err) => {
-        console.log("Failed", err);
+        console.error("Failed to update", err);
       });
   };
 
@@ -36,12 +35,17 @@ const Update = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        {/* User Name: <input type="text" value={username} onChange={e => setUsername(e.target.value)} /><br /> */}
-        Post Name: <input type="text" value={PostName} onChange={e => setPostName(e.target.value)} /><br />
-        <button type="submit">Update</button>
-      </form>
+    <div className="container mt-5">
+      <div className="card shadow p-4">
+        <h2 className="text-center mb-4">Update Post</h2>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Post Name:</label>
+            <input type="text" className="form-control" value={PostName} onChange={e => setPostName(e.target.value)} required />
+          </div>
+          <button type="submit" className="btn btn-primary w-100">Update</button>
+        </form>
+      </div>
     </div>
   );
 };

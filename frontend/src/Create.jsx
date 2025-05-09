@@ -1,20 +1,23 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const Insert = () => {
+const Create = () => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const navigate=useNavigate()
 
     const handleSubmit = (event) => {
         event.preventDefault();
 
         axios.post("http://localhost:3000/insert", { username, password })
             .then((res) => {
-                alert("User added successfully");
+                alert("Account created successfully");
+                navigate('/')
             })
             .catch((err) => {
                 console.log("Error occurred in insertion");
-                alert("Failed");
+               //  alert("Failed");
             });
     };
 
@@ -53,4 +56,4 @@ const Insert = () => {
     );
 };
 
-export default Insert;
+export default Create;

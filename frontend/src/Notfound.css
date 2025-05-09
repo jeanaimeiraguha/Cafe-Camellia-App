@@ -1,0 +1,15 @@
+.notfound-container {
+     text-align: center;
+     padding: 3rem 5rem;
+     margin-top: 143px;
+   }
+   
+   .notfound-text {
+     color: red;
+   }
+   
+   .notfound-heading {
+     font-size: 2rem;
+     margin-top: 1rem;
+   }
+   

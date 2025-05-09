@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-// import { Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Select4 = () => {
     const [cand, setCand] = useState([]);
@@ -15,35 +15,35 @@ const Select4 = () => {
             });
     }, []);
 
-//     const handleDelete = (PostId) => {
-//         axios.delete(`http://localhost:3000/deletecand/${PostId}`)
-//             .then(() => {
-//                 alert("Candidate deleted successfully");
-//                 setCand(cand.filter((candidate) => candidate.PostId !== PostId));
-//             })
-//             .catch((err) => {
-//                 console.log("Failed to delete candidate");
-//             });
-//     };
+    const handleDelete = (PostId) => {
+        axios.delete(`http://localhost:3000/deletecand/${PostId}`)
+            .then(() => {
+                alert("Candidate deleted successfully");
+                setCand(cand.filter((candidate) => candidate.PostId !== PostId));
+            })
+            .catch((err) => {
+                console.log("Failed to delete candidate");
+            });
+    };
 
     return (
-        <div>
-            <h2>Report</h2>
-            {/* <Link to="/insert4">Add New</Link> */}
-            <table border={1}>
-                <thead>
+        <div className="container mt-5">
+            <h2 className="mb-4">Candidate Report</h2>
+            {/* <Link to="/insert4" className="btn btn-primary mb-3">Add New Candidate</Link> */}
+            <table className="table table-bordered table-striped">
+                <thead className="table-dark">
                     <tr>
-                        <th>CandidateNationalId</th>
-                        <th>FirstName</th>
-                        <th>LastName</th>
+                        <th>Candidate National Id</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Gender</th>
-                        <th>DateOfBirth</th>
-                        <th>PostId</th>
-                        <th>ExamDate</th>
-                        <th>PhoneNumber</th>
+                        <th>Date of Birth</th>
+                        <th>Post ID</th>
+                        <th>Exam Date</th>
+                        <th>Phone Number</th>
                         <th>Marks</th>
-                        <th>PostName</th>
-                        {/* <th colSpan={2}>Operations</th> */}
+                        <th>Post Name</th>
+                        {/* <th>Operations</th> */}
                     </tr>
                 </thead>
                 <tbody>
@@ -59,10 +59,7 @@ const Select4 = () => {
                             <td>{data.PhoneNumber}</td>
                             <td>{data.Marks}</td>
                             <td>{data.PostName}</td>
-                            {/* <td>
-                                <button onClick={() => handleDelete(data.PostId)}>Delete</button>
-                                <Link to={`/update4/${data.PostId}`}>Update</Link>
-                            </td> */}
+                            {/*  */}
                         </tr>
                     ))}
                 </tbody>

@@ -9,12 +9,23 @@ import Insert4 from './Insert4';
 import Select4 from './Select4';
 import Update4 from './Update4';
 import Report from './Report';
+import Notfound from './Notfound';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Home from './Home';
+import Login from './Login';
+import './index.css'
+import Create from './Create';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="*" element={<Notfound/>} />
+      <Route path="/create" element={<Create />} />
+      <Route path="/login" element={<Login />} />
         <Route path="/insert" element={<Insert />} />
         <Route path="/report" element={<Report />} />
         <Route path="/insert4" element={<Insert4 />} />
