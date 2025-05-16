@@ -1,44 +1,36 @@
-import React from 'react';
-import Insert from './Insert';
-import Select from './Select';
-import Update from './Update';
-import Insert2 from './Insert2';
-import Select3 from './Select3';
-import Update2 from './Update2';
-import Insert4 from './Insert4';
-import Select4 from './Select4';
-import Update4 from './Update4';
-import Report from './Report';
-import Notfound from './Notfound';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Home from './Home';
-import Login from './Login';
-import './index.css'
-import Create from './Create';
-
+import React from 'react'
+import Addbook from './Addbook'
+import Displaybooks from './Displaybooks'
+import { BrowserRouter,Routes,Route,Link } from 'react-router-dom'
+import UpdBook from './UpdBook'
+import BorrowerSel from './BorrowerSel'
+import Addborrower from './Addborower'
+import Notfound from './NotFound'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Home from './Home'
+import UpdBorrower from './UpdateBorrower'
+import Login from './login'
+import Createaccount from './Createaccount'
 
 const App = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="*" element={<Notfound/>} />
-      <Route path="/create" element={<Create />} />
-      <Route path="/login" element={<Login />} />
-        <Route path="/insert" element={<Insert />} />
-        <Route path="/report" element={<Report />} />
-        <Route path="/insert4" element={<Insert4 />} />
-        <Route path="/select" element={<Select />} />
-        <Route path="/insert2" element={<Insert2 />} />
-        <Route path='/select3' element={<Select3/>}/>
-        <Route path='/select4' element={<Select4/>}/>
-        <Route path="/update/:id" element={<Update />} /> {/* ✅ leading slash for clarity */}
-        <Route path="/update2/:PostId" element={<Update2 />} /> {/* ✅ leading slash for clarity */}
-        <Route path="/update4/:PostId" element={<Update4 />} /> {/* ✅ leading slash for clarity */}
-      </Routes>
-    </BrowserRouter>
-  );
-};
+    <div>
+     <BrowserRouter>
+   
+     <Routes>    <Route path='/' element={<Home/>}/>
+      <Route path='/displaybooks' element={<Displaybooks/>}/>
+      <Route path='*' element={<Notfound/>}/>
+      <Route path='/borrowersel' element={<BorrowerSel/>}/>
+      <Route path='/Addbook' element={<Addbook/>}/>
+      <Route path='/addborrower' element={<Addborrower/>}/>
+      <Route path='/updbook/:id' element={<UpdBook/>}/>
+      <Route path='/updborrower/:bid' element={<UpdBorrower/>}/>
+      <Route path='/login' element={<Login/>}/>
+      <Route path='/createaccount' element={<Createaccount/>}/>
+     </Routes>
+     </BrowserRouter>
+    </div>
+  )
+}
 
-export default App;
+export default App

@@ -1,9 +1,9 @@
 import { useState } from "react";
 import axios from 'axios';
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const Login = () => {
+const Createaccount = () => {
   const navigate = useNavigate();
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -11,20 +11,21 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    axios.post('http://localhost:3000/login', { name, password })
+    axios.post('http://localhost:3000/addadmin', { name, password })
       .then((res) => {
-        alert(res.data); // Message like "Logged in as name"
-        navigate('/');
+       alert("Account created successfully !");
+        navigate('/login')
       })
       .catch((err) => {
-        alert("Login failed: Wrong credentials or server error");
-        console.error("Login failed", err);
+       
+     //    console.error("Login failed", err);
+     navigate('/login')
       });
   };
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4 text-center">Admin Login</h2>
+      <h2 className="mb-4 text-center">Admin  Create Account</h2>
       <form onSubmit={handleSubmit} className="p-4 border rounded shadow-sm bg-light">
         <div className="mb-3">
           <label className="form-label">Name</label>
@@ -48,11 +49,10 @@ const Login = () => {
           />
         </div>
 
-        <button type="submit" className="btn btn-success w-100">Login</button>
-        <Link to="/createaccount">Create Account</Link>
+        <button type="submit" className="btn btn-success w-100">Create Account</button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Createaccount;

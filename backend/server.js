@@ -1,202 +1,148 @@
-
 import mysql from 'mysql';
 import cors from 'cors';
 import express from 'express';
-const app = express();
-app.use(cors());
-app.use(express.json());
 
+const app = express();
+app.use(express.json());
+app.use(cors());
 
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'camellia',
+    database: 'lms'
 });
-
 
 db.connect((err) => {
     if (err) {
-        console.error("Database connection failed:", err);
-        
+        console.log("Failed to connect to MySQL DB:", err);
+    } else {
+        console.log("Connection succeeded to MySQL DB");
     }
-    console.log("Connected to the database successfully");
 });
 
+///////////////////// BOOK ROUTES /////////////////////
 
-app.get('/select', (req, res) => {
-    const sql = "SELECT * FROM users";
+// Display all books
+app.get('/displaybooks', (req, res) => {
+    const sql = "SELECT * FROM books";
     db.query(sql, (err, result) => {
-        if (err) {
-            console.error("Error fetching users:", err);
-            return res.status(500).json({ message: "Failed to fetch users" });
-        }
+        if (err) return res.status(400).json({ message: "Failed to fetch books", error: err });
         return res.status(200).json(result);
     });
 });
-app.get('/selectcand', (req, res) => {
-     const sql = "SELECT * FROM candresults";
-     db.query(sql, (err, result) => {
-         if (err) {
-             console.error("Error fetching users:", err);
-             return res.status(500).json({ message: "Failed to fetch users" });
-         }
-         return res.status(200).json(result);
-     });
- });
+
+// Add a new book
+app.post('/addbook', (req, res) => {
+    const { bookname, borrowername, publisher } = req.body;
+    const sql = "INSERT INTO books(bookname, borrowername, publisher) VALUES (?, ?, ?)";
+    db.query(sql, [bookname, borrowername, publisher], (err, result) => {
+        if (err) return res.status(400).json({ message: "Failed to add book", error: err });
+        return res.status(200).json({ message: "Book added successfully", result });
+    });
+});
+
+///////////////////// BORROWER ROUTES /////////////////////
+
+// Display all borrowers
+app.get('/displayborrower', (req, res) => {
+    const sql = "SELECT * FROM borrower";
+    db.query(sql, (err, result) => {
+        if (err) return res.status(400).json({ message: "Failed to fetch borrowers", error: err });
+        return res.status(200).json(result);
+    });
+});
+
+// Add a new borrower
+app.post('/addborrower', (req, res) => {
+    const { borrowername, b_date, return_d } = req.body;
+    const sql = "INSERT INTO borrower(borrowername, b_date, return_d) VALUES (?, ?, ?)";
+    db.query(sql, [borrowername, b_date, return_d], (err, result) => {
+        if (err) return res.status(400).json({ message: "Failed to add borrower", error: err });
+        return res.status(200).json({ message: "Borrower added successfully", result });
+    });
+});
+
+// Delete a borrower by ID
+app.delete('/deleteborrower/:bid', (req, res) => {
+    const { bid } = req.params;
+    const sql = "DELETE FROM borrower WHERE bid = ?";
+    db.query(sql, [bid], (err, result) => {
+        if (err) return res.status(400).json({ message: "Failed to delete borrower", error: err });
+        return res.status(200).json(result);
+    });
+});
+
+// Update a borrower
+app.put('/updateborrower/:bid', (req, res) => {
+    const { bid } = req.params;
+    const { borrowername, b_date, return_d } = req.body;
+    const sql = "UPDATE borrower SET borrowername = ?, b_date = ?, return_d = ? WHERE bid = ?";
+    db.query(sql, [borrowername, b_date, return_d, bid], (err, result) => {
+        if (err) return res.status(400).json({ message: "Failed to update borrower", error: err });
+        return res.status(200).json(result);
+    });
+});
+
+// Get a borrower for updation
+app.get('/getborrower/:bid', (req, res) => {
+    const { bid } = req.params;
+    const sql = "SELECT * FROM borrower WHERE bid = ?";
+    db.query(sql, [bid], (err, result) => {
+        if (err) return res.status(400).json({ message: "Failed to fetch borrower", error: err });
+        return res.status(200).json(result[0]);
+    });
+});
+
+/////////////////////ADMIN/////////////////////////////////////////
+// app.use(express.json()); // Ensure body parsing middleware is included
+
+app.post('/login', (req, res) => {
+  const sql = "SELECT * FROM admin WHERE name = ? AND password = ?";
+  const { name, password } = req.body;
+
+  db.query(sql, [name, password], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json("Internal server error");
+    }
+    if (result.length === 0) {
+      return res.status(401).json("Wrong credentials");
+    }
+    return res.status(200).json(`Logged in as ${name}`);
+  });
+});
 
 
- //Report select
+app.post('/addadmin', (req, res) => {
+  const sql = "INSERT INTO admin (name,password) VALUES(?,?)";
+  const { name, password } = req.body;
 
- app.get('/selectreport', (req, res) => {
-     const sql = `SELECT * FROM candresults JOIN post ON post.PostId = candresults.PostId ORDER BY Marks DESC
-
-`;
-     db.query(sql, (err, result) => {
-         if (err) {
-             console.error("Error fetching users:", err);
-             return res.status(500).json({ message: "Failed to fetch users" });
-         }
-         return res.status(200).json(result);
-     });
- });
-
-app.get('/selectposts', (req, res) => {
-     const sql = "SELECT * FROM post";
-     db.query(sql, (err, result) => {
-         if (err) {
-             console.error("Error fetching users:", err);
-             return res.status(500).json({ message: "Failed to fetch users" });
-         }
-         return res.status(200).json(result);
-     });
- });
-app.get('/select/:id',(req,res)=>{
-     const{id}=req.params;
-     const sql="SELECT * FROM users WHERE id=?"
-     db.query(sql,[id],(err,result)=>{
-          if(err) return res.status(400).json("failed")
-               return res.status(200).json(result[0])
-
-     })
-})
-
-
-app.get('/selectcand/:PostId', (req, res) => {
-     const { PostId } = req.params;
-     const sql = "SELECT * FROM candresults WHERE PostId=?";
-     db.query(sql, [PostId], (err, result) => {
-         if (err) return res.status(400).json("failed");
-         return res.status(200).json(result[0]); 
-     });
- });
- 
-
-app.get('/selectposts/:PostId',(req,res)=>{
-     const{PostId}=req.params;
-     const sql="SELECT * FROM post WHERE PostId=?"
-     db.query(sql,[PostId],(err,result)=>{
-          if(err) return res.status(400).json("failed")
-               return res.status(200).json(result[0])
-
-     })
-})
-   
-
-app.post('/insert',(req,res)=>{
-     const {username,password}=req.body;
-     const sql="INSERT INTO users(username,password) VALUES(?,?)";
-     db.query(sql,[username,password],(err,result)=>{
-          if(err) return res.status(400).json({Message:"Failed",status:400});
-          return res.status(201).json(result)
-     })
-})
-// candidates
-
-
-app.post('/insertcandidates',(req,res)=>{
-     const {CandidateNationalId,FirstName,LastName,Gender,DateOfBirth,PostId,ExamDate,PhoneNumber,Marks}=req.body;
-     const sql="INSERT INTO candresults(CandidateNationalId,FirstName,LastName,Gender,DateOfBirth,PostId,ExamDate,PhoneNumber,Marks) VALUES(?,?,?,?,?,?,?,?,?)";
-     db.query(sql,[CandidateNationalId,FirstName,LastName,Gender,DateOfBirth,PostId,ExamDate,PhoneNumber,Marks],(err,result)=>{
-          if(err) return res.status(400).json({Message:"Failed",status:400});
-          return res.status(201).json(result)
-     })
-})
+  db.query(sql, [name, password], (err, result) => {
+    if (err) {
+      console.error("Database error:", err);
+      return res.status(500).json("Internal server error");
+    }
+//     if (result.length === 0) {
+//       return res.status(401).json("Wrong credentials");
+//     }
+    return res.status(200).json(result);
+  });
+});
 
 
 
 
 
-//Add post
 
 
-app.post('/insertpost',(req,res)=>{
-     const {PostName}=req.body;
-     const sql="INSERT INTO post(PostName) VALUES(?)";
-     db.query(sql,[PostName],(err,result)=>{
-          if(err) return res.status(400).json({Message:"Failed",status:400});
-          return res.status(201).json(result)
-     })
-})
-app.delete('/delete/:id',(req,res)=>{
-     const {id}=req.params;
-     const sql ="DELETE FROM users where id=?"
-     db.query(sql,[id],(err,result)=>{
-if(err) return res.status(400).json("Failed")
-     return res.status(200).json(result)
-     })
-})
-
-app.delete('/deletecand/:PostId',(req,res)=>{
-     const {PostId}=req.params;
-     const sql ="DELETE FROM 	candresults where PostId=?"
-     db.query(sql,[PostId],(err,result)=>{
-if(err) return res.status(400).json("Failed")
-     return res.status(200).json(result)
-     })
-})
-
-app.delete('/deleteposts/:PostId',(req,res)=>{
-     const {PostId}=req.params;
-     const sql ="DELETE FROM post where PostId=?"
-     db.query(sql,[PostId],(err,result)=>{
-if(err) return res.status(400).json("Failed")
-     return res.status(200).json(result)
-     })
-})
 
 
-app.put('/update/:id',(req,res)=>{
-     const {id}=req.params;
-     const{username,password}=req.body;
-     const sql ="UPDATE users SET username=? , password=? where id=?"
-     db.query(sql,[username,password,id],(err,result)=>{
-if(err) return res.status(400).json("Failed")
-     return res.status(200).json(result)
-     })
-})
 
 
-app.put('/updateposts/:PostId',(req,res)=>{
-     const {PostId}=req.params;
-     const{PostName}=req.body;
-     const sql ="UPDATE post SET PostName=?  where PostId=?"
-     db.query(sql,[PostName,PostId],(err,result)=>{
-if(err) return res.status(400).json("Failed")
-     return res.status(200).json(result)
-     })
-})
-app.put('/updatecand/:PostId', (req, res) => {
-     const { PostId } = req.params;
-     const { CandidateNationalId, FirstName, LastName, DateOfBirth, Gender, PhoneNumber, ExamDate, Marks } = req.body;
-     const sql = "UPDATE candresults SET CandidateNationalId=?, FirstName=?, LastName=?, DateOfBirth=?, Gender=?, PhoneNumber=?, ExamDate=?, Marks=? WHERE PostId=?";
-     db.query(sql, [CandidateNationalId, FirstName, LastName, DateOfBirth, Gender, PhoneNumber, ExamDate, Marks, PostId], (err, result) => {
-         if (err) return res.status(400).json("Failed");
-         return res.status(200).json(result);
-     });
- });
- 
+///////////////////// SERVER RUNNING ON SPECIFIED PORT  /////////////////////
+//////////////////////////////// Cool And defined port/////////////////////////////////////////////
 
 app.listen(3000, () => {
-    console.log("Server running on http://localhost:3000");
+    console.log("Running on http://localhost:3000");
 });

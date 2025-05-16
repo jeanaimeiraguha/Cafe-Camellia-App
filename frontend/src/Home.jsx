@@ -1,35 +1,26 @@
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css'; 
+import './Home.css'
 
 const Home = () => {
   return (
     <>
-      <div className="bg-primary d-flex justify-content-end " style={{fontFamily:"roboto",fontSize:"18px"}}>
-        <Link to="/" style={{ textDecoration: "none", padding: "23px", color: "white" }}>
-          Home
-        </Link>
-        <Link to="/select" style={{ textDecoration: "none", padding: "20px", color: "white" }}>
-          Users
-        </Link>
-        <Link to="/select4" style={{ textDecoration: "none", padding: "20px", color: "white" }}>
-          Candidates
-        </Link>
-        <Link to="/select3" style={{ textDecoration: "none", padding: "20px", color: "white" }}>
-          Posts
-        </Link>
-        <Link to="/report" style={{ textDecoration: "none", padding: "20px", color: "white" }}>
-          Report
-        </Link>
+    <div className="d-flex justify-content-end p-2 bg-white">
+      
+      <nav className="nav">
+       
+        <Link to="/" className="nav-link text-primary">Home</Link>
+        <Link to="/displaybooks" className="nav-link text-primary">Books</Link>
+        <Link to="/borrowersel" className="nav-link text-primary">Borrower</Link>
+        <Link to="/" className="nav-link text-primary">Publisher</Link>
+        <Link to="/" className="nav-link text-primary">Supplier</Link>
+        <Link to="/login" className="nav-link text-danger">Logout</Link>
+      </nav>
 
-        <Link to="/login" className="text-danger" style={{ textDecoration: "none", padding: "20px", color: "white" }}>
-         Logout
-        </Link>
-      </div>
+    </div>
 
-      <h2 className=" text-center" style={{ marginTop: "210px",color:"black" ,fontFamily:"roboto" ,fontSize:"53px"}}>
-        Welcome TO Camellia Cafe
-      </h2>
-
-      <div style={{ backgroundColor: "black", marginTop: "  9289px", padding: "72px" }}></div>
+    <h2 className='text-center' style={{marginTop:"246px", fontFamily:"Roboto"}}>Welcome To XYZ library</h2>
     </>
   );
 };
